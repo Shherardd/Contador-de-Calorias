@@ -1,0 +1,15 @@
+{
+  "name": "contador-calorias",
+  "version": "1.0.0",
+  "description": "made with functional programming",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon -e js index.js"
+  },
+  "author": "sherard",
+  "license": "MIT",
+  "dependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
