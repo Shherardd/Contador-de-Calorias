@@ -4,7 +4,11 @@ let calories = document.getElementById('calories').value
 let carbs = document.getElementById('carbs').value
 let protein = document.getElementById('carbs').value
 
+description.addEventListener('click', invalid)
 
+function invalid () {
+    console.log('ye')
+}
 
 let car = {
     color: 'red',
