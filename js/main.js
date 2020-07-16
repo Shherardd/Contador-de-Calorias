@@ -1,4 +1,11 @@
 
+
+const attrsToString = (obj = {}) => {
+
+}
+
+const tag = t => content => `<${t}>${content}</${t}>`
+
 let description = document.getElementById('description')
 let calories = document.getElementById('calories')
 let carbs = document.getElementById('carbs')
@@ -6,10 +13,12 @@ let protein = document.getElementById('protein')
 let btn = document.getElementById('btn')
 let arr = [description, calories, carbs, protein]
 
+let list = []
+
 btn.addEventListener('click', function(e){
     e.preventDefault()
     if(validation2(arr) === true){
-        alert('Request enviado de forma exitosa')
+        add()
     }else{
         alert('Faltan campos por rellenar')
     }    
@@ -22,6 +31,26 @@ const validation2 = (arr) => {
     })
     if(state === 4){return true}
     else{return false}
+}
+
+const add = () => {
+    const newItem = {
+        description: description.value,
+        calories: parseInt(calories.value),
+        carbs: parseInt(carbs.value),
+        protein: parseInt(protein.value)
+    }
+
+    list.push(newItem)
+    cleanInputs()
+    console.log(list)
+}
+
+const cleanInputs = () => {
+    description.value = ''
+    calories.value = ''
+    carbs.value = ''
+    protein.value = ''
 }
 
 description.addEventListener('focus', ()=> description.classList.remove('is-invalid'))
