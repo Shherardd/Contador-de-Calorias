@@ -9,10 +9,13 @@ const attrsToString = (obj = {}) => {
         attrs.push(`${attr}="${obj[attr]}"`)
     }
 
-    const string = attrs.join('')
+    const string = attrs.join('') // convierte los elementeos del array en un string
 
     return string
 }
+
+const tagAttrs = obj => (content = "") => 
+`<${obj.tag}${obj.attrs ? ' ' : ''}${attrsToString(obj.attrs)}>${content}</${obj.tag}>`
 
 const tag = t => content => `<${t}>${content}</${t}>`
 
