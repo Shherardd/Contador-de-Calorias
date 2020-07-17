@@ -1,4 +1,5 @@
-
+const compose = (...functions) => data =>
+    functions.reduceRight((value, func) => func(value), data)
 
 const attrsToString = (obj = {}) => {
     const keys = Object.keys(obj)
@@ -24,7 +25,13 @@ const tag = t => {
         tagAttrs(t)
     }
 }
-const tag = t => content => `<${t}>${content}</${t}>`
+//const tag = t => content => `<${t}>${content}</${t}>`
+const tableRowTag = tag('tr')
+//const tableRow = items => tableRowTag(tableCells(items))
+const tableRow = items => compose(tableRowTag, tableCells)(items)
+
+const tableCell = tag('td')
+const tableCells = items => items.map(tableCell).join('') 
 
 let description = document.getElementById('description')
 let calories = document.getElementById('calories')
