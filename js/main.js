@@ -17,6 +17,13 @@ const attrsToString = (obj = {}) => {
 const tagAttrs = obj => (content = "") => 
 `<${obj.tag}${obj.attrs ? ' ' : ''}${attrsToString(obj.attrs)}>${content}</${obj.tag}>`
 
+const tag = t => {
+    if(typeof t === 'string'){
+        tagAttrs({tag: t})
+    }else {
+        tagAttrs(t)
+    }
+}
 const tag = t => content => `<${t}>${content}</${t}>`
 
 let description = document.getElementById('description')
