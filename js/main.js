@@ -73,6 +73,16 @@ const add = () => {
     console.log(list)
 }
 
+const updateTotals = () => {
+    let calories = 0, carbs = 0, protein = 0
+
+    list.map(item => {
+        calories += item.calories,
+        carbs += item.carbs,
+        protein += item.protein
+    })
+}
+
 const cleanInputs = () => {
     description.value = ''
     calories.value = ''
