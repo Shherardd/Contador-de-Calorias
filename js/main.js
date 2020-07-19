@@ -18,20 +18,20 @@ const attrsToString = (obj = {}) => {
 const tagAttrs = obj => (content = "") => 
 `<${obj.tag}${obj.attrs ? ' ' : ''}${attrsToString(obj.attrs)}>${content}</${obj.tag}>`
 
-const tag = t => {
+const tag = (t) => {
     if(typeof t === 'string'){
-        tagAttrs({tag: t})
+        return tagAttrs({tag: t})
     }else {
-        tagAttrs(t)
+        return tagAttrs(t)
     }
 }
 //const tag = t => content => `<${t}>${content}</${t}>`
 const tableRowTag = tag('tr')
-//const tableRow = items => tableRowTag(tableCells(items))
-const tableRow = items => compose(tableRowTag, tableCells)(items)
+const tableRow = items => tableRowTag(tableCells(items))
+//const tableRow = items => compose(tableRowTag, tableCells)(items)
 
-const tableCell = tag('td')
-const tableCells = items => items.map(tableCell).join('') 
+const tableCell = tag({tag: 'td'})
+const tableCells = (items = []) => items.map(tableCell).join('\n') 
 
 let description = document.getElementById('description')
 let calories = document.getElementById('calories')
@@ -46,6 +46,8 @@ btn.addEventListener('click', function(e){
     e.preventDefault()
     if(validation2(arr) === true){
         add()
+        updateTotals()
+        
     }else{
         alert('Faltan campos por rellenar')
     }    
@@ -67,13 +69,18 @@ const add = () => {
         carbs: parseInt(carbs.value),
         protein: parseInt(protein.value)
     }
-
+    
     list.push(newItem)
+    renderItems()
+    updateTotals()
     cleanInputs()
     console.log(list)
+    
 }
 
 const updateTotals = () => {
+
+
     let calories = 0, carbs = 0, protein = 0
 
     list.map(item => {
@@ -81,13 +88,32 @@ const updateTotals = () => {
         carbs += item.carbs,
         protein += item.protein
     })
+
+    document.querySelector('#totalCalories').textContent = calories
+    document.querySelector('#totalCarbs').textContent = carbs
+    document.querySelector('#totalProtein').textContent = protein
 }
+
+
 
 const cleanInputs = () => {
     description.value = ''
     calories.value = ''
     carbs.value = ''
     protein.value = ''
+}
+
+//map table add rows
+
+const renderItems = () => {
+   const items = document.querySelector('#items')
+   items.innerHTML = ''
+
+   const rows = list.map(item => {
+       const { description, carbs, protein, calories } = item
+       return tableRow([description, calories, carbs, protein])
+   }).join('')
+   items.innerHTML = rows
 }
 
 description.addEventListener('focus', ()=> description.classList.remove('is-invalid'))
