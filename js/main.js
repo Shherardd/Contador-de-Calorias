@@ -10,7 +10,7 @@ const attrsToString = (obj = {}) => {
         attrs.push(`${attr}="${obj[attr]}"`)
     }
 
-    const string = attrs.join('') // convierte los elementeos del array en un string
+    const string = attrs.join('') // convierte los elementos del array en un string
 
     return string
 }
@@ -32,6 +32,8 @@ const tableRow = items => tableRowTag(tableCells(items))
 
 const tableCell = tag({tag: 'td'})
 const tableCells = (items = []) => items.map(tableCell).join('\n') 
+
+const trashIcon = tag({tag: 'i', attrs: {class: 'fas fa-trash-alt'}})('-')
 
 let description = document.getElementById('description')
 let calories = document.getElementById('calories')
@@ -61,6 +63,7 @@ const validation2 = (arr) => {
     if(state === 4){return true}
     else{return false}
 }
+
 
 const add = () => {
     const newItem = {
@@ -109,11 +112,24 @@ const renderItems = () => {
    const items = document.querySelector('#items')
    items.innerHTML = ''
 
-   const rows = list.map(item => {
+   const rows = list.map((item, index) => {
+       const removeButton = tag({
+           tag: 'button',
+           attrs: {
+               class: 'btn btn-outline-danger',
+               onclick: `removeItem(${index})`
+           }
+       })(trashIcon)
        const { description, carbs, protein, calories } = item
-       return tableRow([description, calories, carbs, protein])
+       return tableRow([description, calories, carbs, protein, removeButton])
    }).join('')
    items.innerHTML = rows
+}
+
+const removeItem = (index) => {
+    list.splice(index, 1)
+    updateTotals()
+    renderItems()
 }
 
 description.addEventListener('focus', ()=> description.classList.remove('is-invalid'))
